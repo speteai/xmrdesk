@@ -21,6 +21,7 @@
 class Miner;
 class Controller;
 class CpuTempMonitor;
+class CpuOptimizer;
 
 class MainWindow : public QMainWindow
 {
@@ -44,6 +45,7 @@ private:
     void setupPoolConfiguration();
     void setupMiningControls();
     void setupStatusDisplay();
+    void setupCpuInfo();
 
 private:
     Controller* m_controller;
@@ -84,6 +86,11 @@ private:
 
     // CPU temperature monitor
     CpuTempMonitor* m_cpuTempMonitor;
+
+    // CPU optimizer
+    CpuOptimizer* m_cpuOptimizer;
+    QLabel* m_cpuInfoLabel;
+    QLabel* m_optimizationLabel;
 
     // Data tracking
     QList<QPointF> m_hashrateData;

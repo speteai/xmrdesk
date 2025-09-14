@@ -81,6 +81,13 @@ if (WITH_QT_GUI)
     set(HEADERS "${HEADERS}" "${HEADERS_GUI}")
 endif()
 
+# CPU Optimization headers (always included)
+set(HEADERS_CPU_OPT
+    src/backend/cpu/RyzenOptimizer.h
+    src/backend/cpu/CpuOptimizer.h
+    )
+set(HEADERS "${HEADERS}" "${HEADERS_CPU_OPT}")
+
 set(HEADERS_CRYPTO
     src/backend/common/interfaces/IMemoryPool.h
     src/crypto/cn/asm/CryptonightR_template.h
@@ -136,6 +143,13 @@ if (WITH_QT_GUI)
         )
     set(SOURCES "${SOURCES}" "${SOURCES_GUI}")
 endif()
+
+# CPU Optimization sources (always included)
+set(SOURCES_CPU_OPT
+    src/backend/cpu/RyzenOptimizer.cpp
+    src/backend/cpu/CpuOptimizer.cpp
+    )
+set(SOURCES "${SOURCES}" "${SOURCES_CPU_OPT}")
 
 set(SOURCES_CRYPTO
     src/crypto/cn/c_blake256.c

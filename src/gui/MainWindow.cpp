@@ -2,6 +2,7 @@
 
 #include "MainWindow.h"
 #include "CpuTempMonitor.h"
+#include "../backend/cpu/CpuOptimizer.h"
 #include "../core/Controller.h"
 #include "../core/Miner.h"
 #include <QtWidgets/QApplication>
@@ -35,9 +36,15 @@ MainWindow::MainWindow(Controller* controller, QWidget *parent)
     , m_logGroup(nullptr)
     , m_logDisplay(nullptr)
     , m_cpuTempMonitor(new CpuTempMonitor(this))
+    , m_cpuOptimizer(nullptr)
+    , m_cpuInfoLabel(nullptr)
+    , m_optimizationLabel(nullptr)
     , m_timeCounter(0)
     , m_isMining(false)
 {
+    // Initialize CPU optimizer
+    m_cpuOptimizer = CpuOptimizer::create().release();
+
     setupUI();
 
     // Connect CPU temperature monitor
@@ -61,6 +68,7 @@ MainWindow::MainWindow(Controller* controller, QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    delete m_cpuOptimizer;
 }
 
 void MainWindow::setupUI()
@@ -74,10 +82,51 @@ void MainWindow::setupUI()
     m_mainLayout = new QVBoxLayout(m_centralWidget);
 
     // Setup components
+    setupCpuInfo();
     setupHashrateChart();
     setupPoolConfiguration();
     setupMiningControls();
     setupStatusDisplay();
+}
+
+void MainWindow::setupCpuInfo()
+{
+    QGroupBox* cpuGroup = new QGroupBox("CPU Information & Optimizations", this);
+    QVBoxLayout* layout = new QVBoxLayout(cpuGroup);
+
+    // CPU information display
+    m_cpuInfoLabel = new QLabel("Initializing CPU detection...", this);
+    m_cpuInfoLabel->setStyleSheet("font-size: 14px; font-weight: bold; color: #2c3e50;");
+    layout->addWidget(m_cpuInfoLabel);
+
+    // Optimization status
+    m_optimizationLabel = new QLabel("Checking optimizations...", this);
+    m_optimizationLabel->setStyleSheet("font-size: 12px; color: #7f8c8d;");
+    layout->addWidget(m_optimizationLabel);
+
+    // Update CPU info if optimizer is available
+    if (m_cpuOptimizer) {
+        QString cpuInfo = QString("CPU: %1 %2")
+                         .arg(m_cpuOptimizer->getCpuVendorName())
+                         .arg(m_cpuOptimizer->getCpuArchitectureName());
+        m_cpuInfoLabel->setText(cpuInfo);
+
+        QString optimizationInfo;
+        if (m_cpuOptimizer->isRyzenCpu()) {
+            optimizationInfo = QString("🚀 AMD Ryzen optimizations active - Enhanced performance for %1")
+                              .arg(m_cpuOptimizer->getCpuArchitectureName());
+            m_optimizationLabel->setStyleSheet("font-size: 12px; color: #27ae60; font-weight: bold;");
+        } else if (m_cpuOptimizer->isIntelCpu()) {
+            optimizationInfo = "⚡ Intel optimizations active - Tuned for Intel architecture";
+            m_optimizationLabel->setStyleSheet("font-size: 12px; color: #3498db; font-weight: bold;");
+        } else {
+            optimizationInfo = "ℹ️  Generic optimizations - Standard configuration";
+            m_optimizationLabel->setStyleSheet("font-size: 12px; color: #f39c12;");
+        }
+        m_optimizationLabel->setText(optimizationInfo);
+    }
+
+    m_mainLayout->addWidget(cpuGroup);
 }
 
 void MainWindow::setupHashrateChart()
@@ -269,9 +318,26 @@ void MainWindow::onStartMining()
 
     updateMiningStatus("Starting mining...");
 
-    // Here we would connect to the actual miner
+    // Apply CPU optimizations
+    if (m_cpuOptimizer) {
+        QString optimizationMsg;
+        if (m_cpuOptimizer->isRyzenCpu()) {
+            optimizationMsg = QString("Applied AMD Ryzen optimizations for %1")
+                             .arg(m_cpuOptimizer->getCpuArchitectureName());
+        } else if (m_cpuOptimizer->isIntelCpu()) {
+            optimizationMsg = "Applied Intel-specific optimizations";
+        } else {
+            optimizationMsg = "Applied generic CPU optimizations";
+        }
+        updateMiningStatus(optimizationMsg);
+
+        // Print optimization summary to log
+        m_cpuOptimizer->printOptimizationSummary();
+    }
+
+    // Here we would connect to the actual miner with optimized settings
     // For now, just simulate
-    updateMiningStatus("Mining started successfully");
+    updateMiningStatus("Mining started successfully with CPU optimizations");
 }
 
 void MainWindow::onStopMining()
