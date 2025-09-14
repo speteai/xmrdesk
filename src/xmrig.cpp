@@ -48,10 +48,10 @@ int main(int argc, char **argv)
 
     if (useGui) {
         GuiApplication guiApp(argc, argv);
-        App app(&process);
 
-        // Set up controller connection
-        guiApp.setController(app.getController());
+        // Create app and get controller
+        App app(&process);
+        guiApp.setController(app.getController().get());
         guiApp.showMainWindow();
 
         return guiApp.exec();

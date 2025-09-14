@@ -1,24 +1,30 @@
 @echo off
-title XMRDesk - Monero Mining GUI
+title XMRDesk - Windows GUI Mining
 
-echo ================================
-echo      XMRDesk v1.0.0
-echo   High Performance XMR Mining
-echo ================================
+echo.
+echo  ██╗  ██╗███╗   ███╗██████╗ ██████╗ ███████╗███████╗██╗  ██╗
+echo  ╚██╗██╔╝████╗ ████║██╔══██╗██╔══██╗██╔════╝██╔════╝██║ ██╔╝
+echo   ╚███╔╝ ██╔████╔██║██████╔╝██║  ██║█████╗  ███████╗█████╔╝
+echo   ██╔██╗ ██║╚██╔╝██║██╔══██╗██║  ██║██╔══╝  ╚════██║██╔═██╗
+echo  ██╔╝ ██╗██║ ╚═╝ ██║██║  ██║██████╔╝███████╗███████║██║  ██╗
+echo  ╚═╝  ╚═╝╚═╝     ╚═╝╚═╝  ╚═╝╚═════╝ ╚══════╝╚══════╝╚═╝  ╚═╝
+echo.
+echo              🚀 High-Performance Monero Mining for Windows
+echo                        Qt6 GUI Version - v1.0.0
+echo.
+echo ═══════════════════════════════════════════════════════════════════════════
+echo.
+echo 🎯 Starting XMRDesk GUI...
+echo 📊 Features: Live hashrate charts, CPU temperature, easy pool setup
+echo 💎 Pre-configured pools: SupportXMR, Qubic, Nanopool
+echo ⚡ Just enter your wallet address and start mining!
+echo.
+echo 💡 Tip: This opens the GUI. For console mode, use start-console.bat
 echo.
 
-echo IMPORTANT: Configure your wallet address before mining!
-echo.
-echo Supported Pools:
-echo 1. SupportXMR.com  (Recommended)
-echo 2. Qubic.org
-echo 3. Nanopool.org
-echo.
-echo Default donation: 1%% (supports development)
-echo.
-echo Starting XMRDesk...
-echo.
+start "" xmrdesk.exe
 
+echo.
+echo 🎉 XMRDesk GUI launched! Check your taskbar if you don't see it.
+echo.
 pause
-
-xmrdesk.exe

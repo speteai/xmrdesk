@@ -20,6 +20,7 @@
 
 class Miner;
 class Controller;
+class CpuTempMonitor;
 
 class MainWindow : public QMainWindow
 {
@@ -80,6 +81,9 @@ private:
     // Log display
     QGroupBox* m_logGroup;
     QTextEdit* m_logDisplay;
+
+    // CPU temperature monitor
+    CpuTempMonitor* m_cpuTempMonitor;
 
     // Data tracking
     QList<QPointF> m_hashrateData;

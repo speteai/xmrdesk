@@ -1,6 +1,7 @@
 #ifdef WITH_QT_GUI
 
 #include "MainWindow.h"
+#include "CpuTempMonitor.h"
 #include "../core/Controller.h"
 #include "../core/Miner.h"
 #include <QtWidgets/QApplication>
@@ -33,10 +34,16 @@ MainWindow::MainWindow(Controller* controller, QWidget *parent)
     , m_statusLabel(nullptr)
     , m_logGroup(nullptr)
     , m_logDisplay(nullptr)
+    , m_cpuTempMonitor(new CpuTempMonitor(this))
     , m_timeCounter(0)
     , m_isMining(false)
 {
     setupUI();
+
+    // Connect CPU temperature monitor
+    connect(m_cpuTempMonitor, &CpuTempMonitor::temperatureChanged,
+            this, &MainWindow::updateCpuTemperature);
+    m_cpuTempMonitor->startMonitoring();
 
     // Update timer for real-time data
     connect(m_updateTimer, &QTimer::timeout, this, [this]() {
@@ -47,13 +54,6 @@ MainWindow::MainWindow(Controller* controller, QWidget *parent)
             simulatedHashrate += (rand() % 200) - 100; // Random variation
             if (simulatedHashrate < 0) simulatedHashrate = 0;
             updateHashrate(simulatedHashrate);
-
-            // Simulate CPU temperature
-            static double simulatedTemp = 60.0;
-            simulatedTemp += (rand() % 10) - 5;
-            if (simulatedTemp < 30) simulatedTemp = 30;
-            if (simulatedTemp > 90) simulatedTemp = 90;
-            updateCpuTemperature(simulatedTemp);
         }
     });
     m_updateTimer->start(1000); // Update every second

@@ -17,9 +17,19 @@ jobs:
     - name: Setup MSVC
       uses: microsoft/setup-msbuild@v2
 
+    - name: Install Qt6
+      uses: jurplel/install-qt-action@v3
+      with:
+        version: '6.6.*'
+        target: 'desktop'
+        arch: 'win64_msvc2019_64'
+        tools: 'tools_cmake'
+        cache: true
+        setup-python: false
+
     - name: Install dependencies
       run: |
-        vcpkg install libuv:x64-windows-static
+        vcpkg install libuv:x64-windows
         vcpkg integrate install
 
     - name: Create build directory
@@ -30,26 +40,31 @@ jobs:
       run: |
         cmake .. -G "Visual Studio 17 2022" -A x64 ^
           -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake ^
-          -DVCPKG_TARGET_TRIPLET=x64-windows-static ^
-          -DWITH_QT_GUI=OFF ^
+          -DVCPKG_TARGET_TRIPLET=x64-windows ^
+          -DCMAKE_PREFIX_PATH="${{ env.Qt6_DIR }}" ^
+          -DWITH_QT_GUI=ON ^
           -DWITH_HWLOC=OFF ^
           -DWITH_OPENCL=OFF ^
           -DWITH_CUDA=OFF ^
           -DWITH_RANDOMX=ON ^
           -DWITH_HTTP=ON ^
           -DWITH_TLS=OFF ^
-          -DCMAKE_BUILD_TYPE=Release ^
-          -DBUILD_STATIC=ON
+          -DCMAKE_BUILD_TYPE=Release
 
     - name: Build
       working-directory: build
       run: cmake --build . --config Release
 
-    - name: Upload executable
+    - name: Deploy Qt
+      working-directory: build/Release
+      run: |
+        windeployqt.exe --qmldir ../../src/gui xmrdesk.exe
+
+    - name: Upload executable with Qt DLLs
       uses: actions/upload-artifact@v4
       with:
-        name: xmrdesk-windows-x64
-        path: build/Release/xmrdesk.exe
+        name: xmrdesk-windows-x64-gui
+        path: build/Release/
 
   build-linux:
     runs-on: ubuntu-latest

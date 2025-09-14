@@ -21,9 +21,19 @@ jobs:
     - name: Setup MSVC
       uses: microsoft/setup-msbuild@v2
 
+    - name: Install Qt6
+      uses: jurplel/install-qt-action@v3
+      with:
+        version: '6.6.*'
+        target: 'desktop'
+        arch: 'win64_msvc2019_64'
+        tools: 'tools_cmake'
+        cache: true
+        setup-python: false
+
     - name: Install dependencies
       run: |
-        vcpkg install libuv:x64-windows-static
+        vcpkg install libuv:x64-windows
         vcpkg integrate install
 
     - name: Create build directory
@@ -34,34 +44,40 @@ jobs:
       run: |
         cmake .. -G "Visual Studio 17 2022" -A x64 ^
           -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake ^
-          -DVCPKG_TARGET_TRIPLET=x64-windows-static ^
-          -DWITH_QT_GUI=OFF ^
+          -DVCPKG_TARGET_TRIPLET=x64-windows ^
+          -DCMAKE_PREFIX_PATH="${{ env.Qt6_DIR }}" ^
+          -DWITH_QT_GUI=ON ^
           -DWITH_HWLOC=OFF ^
           -DWITH_OPENCL=OFF ^
           -DWITH_CUDA=OFF ^
           -DWITH_RANDOMX=ON ^
           -DWITH_HTTP=ON ^
           -DWITH_TLS=OFF ^
-          -DCMAKE_BUILD_TYPE=Release ^
-          -DBUILD_STATIC=ON
+          -DCMAKE_BUILD_TYPE=Release
 
     - name: Build
       working-directory: build
       run: cmake --build . --config Release
 
+    - name: Deploy Qt
+      working-directory: build/Release
+      run: |
+        windeployqt.exe --qmldir ../../src/gui xmrdesk.exe
+
     - name: Create release package
       run: |
         mkdir xmrdesk-release
-        copy build\Release\xmrdesk.exe xmrdesk-release\
+        robocopy build\Release xmrdesk-release /E /XF *.pdb *.ilk
         copy README.md xmrdesk-release\
         copy LICENSE xmrdesk-release\
-        echo @echo off > xmrdesk-release\start.bat
-        echo echo XMRDesk - Monero Mining GUI >> xmrdesk-release\start.bat
-        echo echo. >> xmrdesk-release\start.bat
-        echo echo Please configure your wallet address before mining! >> xmrdesk-release\start.bat
-        echo echo. >> xmrdesk-release\start.bat
-        echo pause >> xmrdesk-release\start.bat
-        echo xmrdesk.exe >> xmrdesk-release\start.bat
+        echo @echo off > xmrdesk-release\start-gui.bat
+        echo echo XMRDesk - Monero Mining GUI >> xmrdesk-release\start-gui.bat
+        echo echo Starting GUI version... >> xmrdesk-release\start-gui.bat
+        echo start xmrdesk.exe >> xmrdesk-release\start-gui.bat
+        echo @echo off > xmrdesk-release\start-console.bat
+        echo echo XMRDesk - Console Mining >> xmrdesk-release\start-console.bat
+        echo echo Starting console version... >> xmrdesk-release\start-console.bat
+        echo xmrdesk.exe --no-gui >> xmrdesk-release\start-console.bat
 
     - name: Create ZIP archive
       run: |
@@ -87,27 +103,33 @@ jobs:
         body: |
           ## XMRDesk Release ${{ steps.version.outputs.version }}
 
-          High-performance Monero miner with Qt GUI interface.
+          High-performance Monero miner with beautiful Qt6 GUI interface for Windows!
 
-          ### Features:
-          - Real-time hashrate monitoring
-          - CPU temperature display
-          - Pre-configured mining pools
-          - Easy wallet configuration
-          - Professional mining interface
+          ### ✨ Features:
+          - 🎯 **Beautiful Qt6 GUI** with real-time monitoring
+          - 📊 **Live hashrate charts** with 60-second history
+          - 🌡️ **CPU temperature monitoring** with color indicators
+          - ⚡ **Pre-configured mining pools** (SupportXMR, Qubic, Nanopool)
+          - 🎮 **Easy wallet configuration** via GUI
+          - 📱 **Professional interface** designed for desktop users
 
-          ### Installation:
+          ### 🚀 Installation (Windows):
           1. Download and extract the ZIP file
-          2. Run `start.bat` to launch XMRDesk
-          3. Configure your XMR wallet address
-          4. Select a mining pool and start mining!
+          2. **GUI Mode:** Double-click `start-gui.bat` or run `xmrdesk.exe` directly
+          3. **Console Mode:** Run `start-console.bat` for command-line interface
+          4. Configure your XMR wallet address in the GUI
+          5. Select a mining pool and start mining!
 
-          ### Supported Pools:
-          - SupportXMR.com
-          - Qubic.org
-          - Nanopool.org
+          ### 🏊 Supported Mining Pools:
+          - **SupportXMR.com** (Recommended)
+          - **Qubic.org**
+          - **Nanopool.org**
 
-          **Note:** This release includes the console version. GUI version coming soon!
+          ### 📋 System Requirements:
+          - Windows 10/11 (64-bit)
+          - No additional software needed - all Qt6 DLLs included!
+
+          **🎉 This release includes the full Qt6 GUI version for Windows!**
         draft: false
         prerelease: false
 
