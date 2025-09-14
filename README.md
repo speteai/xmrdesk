@@ -1,18 +1,17 @@
-# XMRig
+# XMRDesk
 
-[![Github All Releases](https://img.shields.io/github/downloads/xmrig/xmrig/total.svg)](https://github.com/xmrig/xmrig/releases)
-[![GitHub release](https://img.shields.io/github/release/xmrig/xmrig/all.svg)](https://github.com/xmrig/xmrig/releases)
-[![GitHub Release Date](https://img.shields.io/github/release-date/xmrig/xmrig.svg)](https://github.com/xmrig/xmrig/releases)
-[![GitHub license](https://img.shields.io/github/license/xmrig/xmrig.svg)](https://github.com/xmrig/xmrig/blob/master/LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/xmrig/xmrig.svg)](https://github.com/xmrig/xmrig/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/xmrig/xmrig.svg)](https://github.com/xmrig/xmrig/network)
+[![GitHub license](https://img.shields.io/github/license/speteai/xmrdesk.svg)](https://github.com/speteai/xmrdesk/blob/master/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/speteai/xmrdesk.svg)](https://github.com/speteai/xmrdesk/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/speteai/xmrdesk.svg)](https://github.com/speteai/xmrdesk/network)
 
-XMRig is a high performance, open source, cross platform RandomX, KawPow, CryptoNight and [GhostRider](https://github.com/xmrig/xmrig/tree/master/src/crypto/ghostrider#readme) unified CPU/GPU miner and [RandomX benchmark](https://xmrig.com/benchmark). Official binaries are available for Windows, Linux, macOS and FreeBSD.
+XMRDesk is a high performance, open source Monero (XMR) miner with an attractive Qt-based GUI. Based on XMRig, it provides real-time hashrate monitoring, CPU temperature display, and easy pool configuration for popular mining pools. Designed specifically for desktop users who want a user-friendly mining experience.
 
-## Mining backends
-- **CPU** (x86/x64/ARMv7/ARMv8)
-- **OpenCL** for AMD GPUs.
-- **CUDA** for NVIDIA GPUs via external [CUDA plugin](https://github.com/xmrig/xmrig-cuda).
+## Features
+- **Qt-based GUI** with real-time monitoring
+- **Hashrate visualization** with historical charts
+- **CPU temperature monitoring**
+- **Pre-configured pools**: supportxmr.com, qubic.org, nanopool.org
+- **CPU mining** (x86/x64/ARMv7/ARMv8) optimized for XMR
 
 ## Download
 * **[Binary releases](https://github.com/xmrig/xmrig/releases)**
