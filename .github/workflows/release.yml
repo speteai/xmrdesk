@@ -1,0 +1,122 @@
+name: Release XMRDesk
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., v1.0.0)'
+        required: true
+        default: 'v1.0.0'
+
+jobs:
+  release:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup MSVC
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Install dependencies
+      run: |
+        vcpkg install libuv:x64-windows-static
+        vcpkg integrate install
+
+    - name: Create build directory
+      run: mkdir build
+
+    - name: Configure CMake
+      working-directory: build
+      run: |
+        cmake .. -G "Visual Studio 17 2022" -A x64 ^
+          -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake ^
+          -DVCPKG_TARGET_TRIPLET=x64-windows-static ^
+          -DWITH_QT_GUI=OFF ^
+          -DWITH_HWLOC=OFF ^
+          -DWITH_OPENCL=OFF ^
+          -DWITH_CUDA=OFF ^
+          -DWITH_RANDOMX=ON ^
+          -DWITH_HTTP=ON ^
+          -DWITH_TLS=OFF ^
+          -DCMAKE_BUILD_TYPE=Release ^
+          -DBUILD_STATIC=ON
+
+    - name: Build
+      working-directory: build
+      run: cmake --build . --config Release
+
+    - name: Create release package
+      run: |
+        mkdir xmrdesk-release
+        copy build\Release\xmrdesk.exe xmrdesk-release\
+        copy README.md xmrdesk-release\
+        copy LICENSE xmrdesk-release\
+        echo @echo off > xmrdesk-release\start.bat
+        echo echo XMRDesk - Monero Mining GUI >> xmrdesk-release\start.bat
+        echo echo. >> xmrdesk-release\start.bat
+        echo echo Please configure your wallet address before mining! >> xmrdesk-release\start.bat
+        echo echo. >> xmrdesk-release\start.bat
+        echo pause >> xmrdesk-release\start.bat
+        echo xmrdesk.exe >> xmrdesk-release\start.bat
+
+    - name: Create ZIP archive
+      run: |
+        7z a xmrdesk-windows-x64.zip xmrdesk-release\*
+
+    - name: Get version
+      id: version
+      run: |
+        if ("${{ github.event.inputs.version }}" -ne "") {
+          echo "version=${{ github.event.inputs.version }}" >> $env:GITHUB_OUTPUT
+        } else {
+          $tag = "${{ github.ref }}".Replace("refs/tags/", "")
+          echo "version=$tag" >> $env:GITHUB_OUTPUT
+        }
+
+    - name: Create Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.version.outputs.version }}
+        release_name: XMRDesk ${{ steps.version.outputs.version }}
+        body: |
+          ## XMRDesk Release ${{ steps.version.outputs.version }}
+
+          High-performance Monero miner with Qt GUI interface.
+
+          ### Features:
+          - Real-time hashrate monitoring
+          - CPU temperature display
+          - Pre-configured mining pools
+          - Easy wallet configuration
+          - Professional mining interface
+
+          ### Installation:
+          1. Download and extract the ZIP file
+          2. Run `start.bat` to launch XMRDesk
+          3. Configure your XMR wallet address
+          4. Select a mining pool and start mining!
+
+          ### Supported Pools:
+          - SupportXMR.com
+          - Qubic.org
+          - Nanopool.org
+
+          **Note:** This release includes the console version. GUI version coming soon!
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./xmrdesk-windows-x64.zip
+        asset_name: xmrdesk-windows-x64.zip
+        asset_content_type: application/zip
