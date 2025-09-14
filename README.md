@@ -13,15 +13,43 @@ XMRDesk is a high performance, open source Monero (XMR) miner with an attractive
 - **Pre-configured pools**: supportxmr.com, qubic.org, nanopool.org
 - **CPU mining** (x86/x64/ARMv7/ARMv8) optimized for XMR
 
-## Download
-* **[Binary releases](https://github.com/xmrig/xmrig/releases)**
-* **[Build from source](https://xmrig.com/docs/miner/build)**
+## Screenshots
 
-## Usage
-The preferred way to configure the miner is the [JSON config file](https://xmrig.com/docs/miner/config) as it is more flexible and human friendly. The [command line interface](https://xmrig.com/docs/miner/command-line-options) does not cover all features, such as mining profiles for different algorithms. Important options can be changed during runtime without miner restart by editing the config file or executing [API](https://xmrig.com/docs/miner/api) calls.
+![XMRDesk GUI](docs/screenshot.png)
 
-* **[Wizard](https://xmrig.com/wizard)** helps you create initial configuration for the miner.
-* **[Workers](http://workers.xmrig.info)** helps manage your miners via HTTP API.
+## Build from Source
+
+### Prerequisites
+- Qt6 (Core, Widgets, Charts)
+- CMake 3.10+
+- GCC/Clang compiler
+- libuv development package
+
+### Ubuntu/Debian
+```bash
+sudo apt update
+sudo apt install build-essential cmake libuv1-dev qt6-base-dev qt6-charts-dev
+git clone https://github.com/speteai/xmrdesk.git
+cd xmrdesk
+./build.sh
+```
+
+### Usage
+
+**GUI Mode (Default):**
+```bash
+./build/xmrdesk
+```
+
+**Console Mode:**
+```bash
+./build/xmrdesk --no-gui
+```
+
+### Configuration
+- **Pool**: Select from pre-configured pools (SupportXMR, Qubic, Nanopool)
+- **Wallet**: Enter your XMR wallet address
+- **Worker**: Optional worker name for pool identification
 
 ## Donations
 * Default donation 1% (1 minute in 100 minutes) can be increased via option `donate-level` or disabled in source code.

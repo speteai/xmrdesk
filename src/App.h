@@ -55,6 +55,8 @@ public:
 
     int exec();
 
+    std::shared_ptr<Controller> getController() const { return m_controller; }
+
 protected:
     void onConsoleCommand(char command) override;
     void onSignal(int signum) override;

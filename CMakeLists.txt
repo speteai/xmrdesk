@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(xmrig)
+project(xmrdesk)
 
 option(WITH_HWLOC           "Enable hwloc support" ON)
 option(WITH_CN_LITE         "Enable CryptoNight-Lite algorithms family" ON)
@@ -32,6 +32,7 @@ option(WITH_VAES            "Enable VAES instructions for Cryptonight" ON)
 option(WITH_BENCHMARK       "Enable builtin RandomX benchmark and stress test" ON)
 option(WITH_SECURE_JIT      "Enable secure access to JIT memory" OFF)
 option(WITH_DMI             "Enable DMI/SMBIOS reader" ON)
+option(WITH_QT_GUI          "Enable Qt GUI interface" ON)
 
 option(BUILD_STATIC         "Build static binary" OFF)
 option(ARM_V8               "Force ARMv8 (64 bit) architecture, use with caution if automatic detection fails, but you sure it may work" OFF)
@@ -70,6 +71,15 @@ set(HEADERS
     src/Summary.h
     src/version.h
    )
+
+if (WITH_QT_GUI)
+    set(HEADERS_GUI
+        src/gui/MainWindow.h
+        src/gui/GuiApplication.h
+        src/gui/CpuTempMonitor.h
+        )
+    set(HEADERS "${HEADERS}" "${HEADERS_GUI}")
+endif()
 
 set(HEADERS_CRYPTO
     src/backend/common/interfaces/IMemoryPool.h
@@ -117,6 +127,15 @@ set(SOURCES
     src/Summary.cpp
     src/xmrig.cpp
    )
+
+if (WITH_QT_GUI)
+    set(SOURCES_GUI
+        src/gui/MainWindow.cpp
+        src/gui/GuiApplication.cpp
+        src/gui/CpuTempMonitor.cpp
+        )
+    set(SOURCES "${SOURCES}" "${SOURCES_GUI}")
+endif()
 
 set(SOURCES_CRYPTO
     src/crypto/cn/c_blake256.c
@@ -197,6 +216,14 @@ add_definitions(-D__STDC_FORMAT_MACROS -DUNICODE -D_FILE_OFFSET_BITS=64)
 
 find_package(UV REQUIRED)
 
+if (WITH_QT_GUI)
+    find_package(Qt6 REQUIRED COMPONENTS Core Widgets Charts)
+    set(CMAKE_AUTOMOC ON)
+    set(CMAKE_AUTOUIC ON)
+    set(CMAKE_AUTORCC ON)
+    add_definitions(-DWITH_QT_GUI)
+endif()
+
 include(cmake/flags.cmake)
 include(cmake/randomx.cmake)
 include(cmake/argon2.cmake)
@@ -238,6 +265,10 @@ endif()
 
 add_executable(${CMAKE_PROJECT_NAME} ${HEADERS} ${SOURCES} ${SOURCES_OS} ${HEADERS_CRYPTO} ${SOURCES_CRYPTO} ${SOURCES_SYSLOG} ${TLS_SOURCES} ${XMRIG_ASM_SOURCES})
 target_link_libraries(${CMAKE_PROJECT_NAME} ${XMRIG_ASM_LIBRARY} ${OPENSSL_LIBRARIES} ${UV_LIBRARIES} ${EXTRA_LIBS} ${CPUID_LIB} ${ARGON2_LIBRARY} ${ETHASH_LIBRARY} ${GHOSTRIDER_LIBRARY})
+
+if (WITH_QT_GUI)
+    target_link_libraries(${CMAKE_PROJECT_NAME} Qt6::Core Qt6::Widgets Qt6::Charts)
+endif()
 
 if (WIN32)
     if (NOT ARM_TARGET)
