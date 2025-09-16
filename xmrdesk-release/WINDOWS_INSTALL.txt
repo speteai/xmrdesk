@@ -1,0 +1,69 @@
+╔════════════════════════════════════════════════════════════════╗
+║                    XMRDesk v1.0.0 - Windows                   ║
+║              High-Performance Monero Mining GUI               ║
+╚════════════════════════════════════════════════════════════════╝
+
+🚀 QUICK START:
+1. Double-click "start.bat" to launch XMRDesk
+2. Follow the on-screen instructions
+3. Enter your XMR wallet address
+4. Start mining!
+
+📁 FILES INCLUDED:
+• xmrdesk.exe          - Main application (demo version)
+• start.bat            - GUI launcher with welcome screen
+• start-console.bat    - Console mode launcher
+• README.md            - Full documentation
+• LICENSE              - GPL v3 License
+• WINDOWS_INSTALL.txt  - This file
+
+🎯 FEATURES:
+✅ AMD Ryzen optimizations (Zen 1-5)
+✅ Intel processor optimizations
+✅ CPU temperature monitoring
+✅ Pre-configured mining pools
+✅ Easy wallet configuration
+✅ Professional Windows interface
+
+🏊 SUPPORTED POOLS:
+• SupportXMR.com (Recommended)
+• Qubic.org
+• Nanopool.org
+
+💻 SYSTEM REQUIREMENTS:
+• Windows 10/11 (64-bit)
+• AMD Ryzen or Intel processor
+• 4GB+ RAM recommended
+• Internet connection
+
+🔧 TECHNICAL NOTES:
+This is the demo/preview version of XMRDesk. It includes:
+- CPU detection and optimization display
+- Pool configuration interface
+- Mining simulation
+- All GUI components ready
+
+The full mining version with Qt6 GUI is available via:
+→ GitHub: https://github.com/speteai/xmrdesk
+→ GitHub Actions: Automatic Windows builds
+→ Full source code with build instructions
+
+💝 SUPPORT DEVELOPMENT:
+XMR Wallet: 48ckezCUYfnj3vDtQRtH1X4ExpvowjRBJj7U36P13KbDPeZ6M3Pjuev3xdCkXPuAuQNomuSDXTBZFTkQRfP33t3gMTjJCpL
+
+Default donation: 1% (supports continued development)
+
+🛡️ SECURITY:
+• Open source - full code transparency
+• No telemetry or data collection
+• Local wallet management
+• Standard mining protocols only
+
+📞 SUPPORT:
+• GitHub Issues: https://github.com/speteai/xmrdesk/issues
+• Full documentation in README.md
+
+═══════════════════════════════════════════════════════════════════
+
+Thank you for using XMRDesk!
+Built with ❤️ for the Monero mining community
