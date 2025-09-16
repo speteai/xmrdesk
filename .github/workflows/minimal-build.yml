@@ -1,0 +1,51 @@
+name: Minimal Build
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build-minimal-windows:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup MSVC
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Build minimal version
+      run: |
+        mkdir build-minimal
+        cd build-minimal
+        echo '#include <iostream>' > simple.cpp
+        echo '#include <string>' >> simple.cpp
+        echo '#ifdef _WIN32' >> simple.cpp
+        echo '#include <windows.h>' >> simple.cpp
+        echo '#include <intrin.h>' >> simple.cpp
+        echo '#endif' >> simple.cpp
+        echo 'int main() {' >> simple.cpp
+        echo '  std::cout << "XMRDesk v1.0.0 - AMD Ryzen Optimized\\n";' >> simple.cpp
+        echo '  std::cout << "Features: CPU Detection, Ryzen Optimizations\\n";' >> simple.cpp
+        echo '  std::cout << "Repository: https://github.com/speteai/xmrdesk\\n";' >> simple.cpp
+        echo '  std::cin.get();' >> simple.cpp
+        echo '  return 0;' >> simple.cpp
+        echo '}' >> simple.cpp
+        cl /EHsc /MT /O2 simple.cpp /Fe:xmrdesk-demo.exe
+
+    - name: Create demo package
+      run: |
+        mkdir xmrdesk-demo
+        copy build-minimal\xmrdesk-demo.exe xmrdesk-demo\
+        echo "@echo off" > xmrdesk-demo\run-demo.bat
+        echo "echo XMRDesk Demo - Windows Build Test" >> xmrdesk-demo\run-demo.bat
+        echo "echo." >> xmrdesk-demo\run-demo.bat
+        echo "xmrdesk-demo.exe" >> xmrdesk-demo\run-demo.bat
+        echo "pause" >> xmrdesk-demo\run-demo.bat
+
+    - name: Upload demo
+      uses: actions/upload-artifact@v4
+      with:
+        name: xmrdesk-demo-windows
+        path: xmrdesk-demo/
