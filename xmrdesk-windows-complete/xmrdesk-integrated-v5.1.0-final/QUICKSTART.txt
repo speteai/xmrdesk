@@ -1,0 +1,46 @@
+XMRDesk Integrated v5.1.0 Final - QUICKSTART
+===========================================
+
+🚀 ULTIMATE SINGLE FILE SOLUTION 🚀
+
+SUPER SIMPLE USAGE:
+==================
+
+1. Download: xmrdesk-integrated.exe (ONE FILE!)
+
+2. Double-click to run (no installation!)
+
+3. Enter your Monero wallet address
+
+4. Select mining pool (SupportXMR recommended)
+
+5. Set thread count (default: 4)
+
+6. Click "Start Mining"
+
+THAT'S IT! 🎯
+
+WHAT HAPPENS:
+=============
+
+✅ Program automatically extracts embedded XMRig v6.24.0
+✅ Connects to selected mining pool
+✅ Starts real RandomX mining
+✅ Shows live hashrate and statistics
+✅ Logs share found/rejected notifications
+
+FEATURES:
+=========
+
+• ONE FILE - No external dependencies!
+• XMRig v6.24.0 embedded (6.3MB)
+• Professional NiceHash-style GUI
+• Real-time mining statistics
+• 6 premium pools preconfigured
+• Custom donation wallet integrated
+
+SIZE: 9.3MB complete solution
+PORTABILITY: Run from anywhere
+INSTALLATION: None required!
+
+For details see README-INTEGRATED-FINAL.txt
