@@ -1,0 +1,36 @@
+XMRDesk RandomX v4.1.0 Final - QUICKSTART GUIDE
+===============================================
+
+🚀 IMMEDIATE START:
+
+1. Double-click "xmrdesk-randomx-v4.1.0.exe"
+
+2. Enter your XMR wallet address:
+   Format: 4ABC...XYZ (95 characters)
+
+3. Select pool: "SupportXMR" (Recommended)
+
+4. Set threads: 4 (or number of CPU cores)
+
+5. Click "Start Mining"
+
+6. Monitor statistics:
+   ✓ Hashrate: ~100-300 H/s per thread (REALISTIC!)
+   ✓ Pool: "Connected: pool.supportxmr.com:3333"
+   ✓ Status: "MINING"
+   ✓ Shares: Every 10-30 minutes (normal for RandomX)
+
+⚠️ IMPORTANT:
+• Hashrate shows H/s (not kH/s) - this is correct!
+• RandomX is much slower than other algorithms
+• 100% CPU usage is normal
+• First share may take 20-30 minutes
+
+✨ FIXES IN v4.1.0:
+• ✅ Real RandomX algorithm for Monero
+• ✅ Correct hashrate display (H/s)
+• ✅ Working share submission
+• ✅ English interface only
+• ✅ All GUI elements visible
+
+For detailed info see README-RANDOMX-FINAL.txt
