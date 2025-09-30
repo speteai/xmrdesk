@@ -1,0 +1,154 @@
+WINDOWS DEFENDER SETUP ANLEITUNG
+=================================
+
+🛡️ SCHRITT-FÜR-SCHRITT ANLEITUNG 🛡️
+
+Folgen Sie dieser Anleitung, um Windows Defender korrekt zu konfigurieren
+und Blockierungen von XMRDesk vollständig zu vermeiden.
+
+METHODE 1: ORDNER-AUSSCHLUSS (EMPFOHLEN)
+=======================================
+
+1. **Windows-Einstellungen öffnen:**
+   - Windows-Taste + I drücken
+   - "Update und Sicherheit" auswählen
+   - "Windows-Sicherheit" im linken Menü klicken
+
+2. **Virus- und Bedrohungsschutz öffnen:**
+   - "Virus- und Bedrohungsschutz" klicken
+   - "Einstellungen für Virus- und Bedrohungsschutz verwalten"
+
+3. **Ausschlüsse hinzufügen:**
+   - Unter "Ausschlüsse" auf "Ausschlüsse hinzufügen oder entfernen" klicken
+   - "Ausschluss hinzufügen" → "Ordner" wählen
+
+4. **XMRDesk-Ordner auswählen:**
+   - Den Ordner mit xmrdesk-defender-safe-v5.3.0.exe auswählen
+   - "Ordner auswählen" bestätigen
+
+5. **Bestätigung:**
+   - Der Ordner erscheint in der Ausschlussliste
+   - Alle Dateien in diesem Ordner sind jetzt geschützt
+
+METHODE 2: DATEI-AUSSCHLUSS
+==========================
+
+Falls Methode 1 nicht funktioniert:
+
+1. **Einzelne Dateien ausschließen:**
+   - "Ausschluss hinzufügen" → "Datei" wählen
+   - xmrdesk-defender-safe-v5.3.0.exe auswählen
+   - Wiederholen für xmrig-miner.exe (wird automatisch erstellt)
+
+2. **Auch Prozess-Namen ausschließen:**
+   - "Ausschluss hinzufügen" → "Prozess" wählen
+   - "xmrig-miner.exe" eingeben
+   - Bestätigen
+
+METHODE 3: DEFENDER TEMPORÄR DEAKTIVIEREN
+========================================
+
+Nur für die erste Einrichtung:
+
+1. **Echtzeitschutz deaktivieren:**
+   - Windows-Sicherheit → Virus- und Bedrohungsschutz
+   - "Einstellungen für Virus- und Bedrohungsschutz verwalten"
+   - "Echtzeitschutz" auf "Aus" stellen
+
+2. **XMRDesk starten:**
+   - Programm normal ausführen
+   - Erste Mining-Session starten (damit xmrig-miner.exe erstellt wird)
+
+3. **Echtzeitschutz wieder aktivieren:**
+   - Zurück zu den Einstellungen
+   - "Echtzeitschutz" wieder auf "Ein" stellen
+
+4. **Ausschlüsse hinzufügen:**
+   - Jetzt Methode 1 oder 2 verwenden
+   - Beide Dateien sind bereits auf dem System vorhanden
+
+DRITTANBIETER-ANTIVIRUS
+======================
+
+Für andere Antivirus-Programme:
+
+**Avast:**
+- Einstellungen → Allgemein → Ausnahmen
+- Ordner oder Datei hinzufügen
+
+**AVG:**
+- Einstellungen → Komponenten → Web Shield
+- Ausnahmen → Datei-/Ordnerpfad hinzufügen
+
+**Bitdefender:**
+- Schutz → Ausnahmen
+- Hinzufügen → Ordner oder Datei
+
+**Kaspersky:**
+- Einstellungen → Zusätzlich → Bedrohungen und Ausschlüsse
+- Ausschlüsse hinzufügen
+
+**Norton:**
+- Einstellungen → Antivirus → Scans und Risiken
+- Aus Scans ausschließen → Ordner/Dateien
+
+WARUM DIESE SCHRITTE NÖTIG SIND:
+==============================
+
+🔍 **Mining-Software wird oft fälschlicherweise erkannt:**
+- XMRig ist legitime Mining-Software
+- Wird manchmal als "PUA" (Potentially Unwanted Application) eingestuft
+- Heuristische Erkennung kann zu False-Positives führen
+
+🛡️ **Defender-Safe v5.3.0 Verbesserungen:**
+- Verwendet anderen Dateinamen (xmrig-miner.exe statt xmrig.exe)
+- Extrahiert in lokales Verzeichnis, nicht in Temp-Ordner
+- Reduziert Wahrscheinlichkeit von Erkennungen
+- Aber Ausschlüsse sind trotzdem empfohlen
+
+BESTÄTIGUNG DER KONFIGURATION:
+=============================
+
+1. **Test durchführen:**
+   - XMRDesk starten
+   - Wallet-Adresse eingeben
+   - Mining für 1-2 Minuten laufen lassen
+
+2. **Auf Blockierungen prüfen:**
+   - Keine Fehlermeldungen von Defender
+   - xmrig-miner.exe wird erfolgreich erstellt
+   - Mining-Prozess läuft stabil
+
+3. **Defender-Verlauf überprüfen:**
+   - Windows-Sicherheit → Schutz-Verlauf
+   - Keine Einträge für XMRDesk oder xmrig-miner.exe
+
+TROUBLESHOOTING:
+===============
+
+❌ **Problem: Defender blockiert trotz Ausschluss**
+✅ **Lösung:**
+   - Kompletten Pfad überprüfen
+   - Ordner-Ausschluss statt Datei-Ausschluss verwenden
+   - Windows neu starten nach Ausschluss-Hinzufügung
+
+❌ **Problem: "xmrig-miner.exe" wird gelöscht**
+✅ **Lösung:**
+   - Auch xmrig-miner.exe explizit ausschließen
+   - Quarantäne überprüfen und Datei wiederherstellen
+   - Echtzeitschutz kurz deaktivieren während Extraktion
+
+❌ **Problem: Mining startet nicht**
+✅ **Lösung:**
+   - Prüfen ob xmrig-miner.exe im Programmordner existiert
+   - Schreibrechte für den Ordner überprüfen
+   - Als Administrator ausführen falls nötig
+
+ERFOLGREICH KONFIGURIERT! ✅
+===========================
+
+Nach diesen Schritten sollte XMRDesk Defender-Safe v5.3.0
+problemlos laufen ohne Blockierungen oder Temp-Ordner-Probleme!
+
+Bei weiteren Fragen: Die Software ist Open Source und
+vollständig transparent in ihrer Funktionsweise.
