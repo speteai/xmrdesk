@@ -1,0 +1,30 @@
+XMRDesk Modern v4.0.0 Final - SCHNELLSTART
+==========================================
+
+🚀 SOFORT LOSLEGEN:
+
+1. Doppelklick auf "xmrdesk-modern-v4.0.0.exe"
+
+2. EIGENE WALLET-ADRESSE eingeben:
+   Format: 4ABC...XYZ (95 Zeichen XMR-Adresse)
+
+3. Pool auswählen: "SupportXMR" (Empfohlen)
+
+4. Threads einstellen: 4 (oder Anzahl CPU-Kerne)
+
+5. "Start Mining" klicken
+
+6. Statistiken beobachten:
+   ✓ Hashrate sollte > 0 H/s anzeigen
+   ✓ Pool: "Connected: pool.supportxmr.com:3333"
+   ✓ Status: "MINING"
+
+⚠️ 100% CPU-Auslastung ist normal!
+
+✨ NEUE FEATURES:
+• Moderne GUI mit attraktivem Design
+• ECHTES Mining - keine Simulation!
+• Eigene Wallet-Adresse eingeben
+• Realistische Share-Häufigkeit
+
+Für Details siehe README-MODERN-FINAL.txt
